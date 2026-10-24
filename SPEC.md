@@ -60,3 +60,14 @@ R6|release assets 12.15.0|14 assets; ours: `darwin-arm64` sha256 `6a41a287…6ef
 R7|pnpm 12 lockfile & store|12.15.0 `install --lockfile-only` writes `lockfileVersion: '9.0'` ∴ pin fetcher's major check (9 ≤ 12) passes. store dir `STORE_VERSION = "v11"` ∴ fetcher's `v11` fixup (`index.db` → SQL dump @ `fetcherVersion = 4`) applies|fixture run; `pnpm/crates/store-dir/src/store_dir.rs`
 R8|pin `fetchPnpmDeps`|args `pnpm`, `fetcherVersion` ∈ 1–4 (required); reads `pnpm.version` & `pnpm.nodejs-slim`; pnpm ≥ 11 → env `pnpm_config_pm_on_fail=ignore`, `side_effects_cache=false`, `force_ignores_platform=true`; `install --force --ignore-scripts --frozen-lockfile`|`pkgs/build-support/node/fetch-pnpm-deps/default.nix` @ pin
 R9|consumer nix-orca 2026-10-24|`nix/linux/sources.nix`: 2 `fetchPnpmDeps` (`fetcherVersion = 4`) on pin pnpm 11.27.0 over Orca `pnpm-lock.yaml` v9.0; `package.nix` uses `pnpmConfigHook`. Orca v1.4.237 `packageManager` `pnpm@12.14.0`|nix-orca `nix/linux/SPEC.md` R2, R3; `packageManager` from prompt (v1.4.237)
+
+## §V INVARIANTS
+
+V1: lock graph: root inputs = exactly `nixpkgs-lock`; exactly 1 nixpkgs node; its rev = rev `nixpkgs-lock` publishes; gate fails else (D1).
+V2: `overlays.default` applied to pin → attr names it sets = exactly `[ "pnpm_12" ]`; `pnpm` stays pin's (D9).
+V3: `packages.<system>.pnpm` & `checks.<system>` evaluate ∀ 4 systems; CI builds ∀ system actlith carries (`paradigm/V28`).
+V4: pinned version ∈ stable 12.x: matches `^12\.[0-9]+\.[0-9]+$`; ⊥ prerelease suffix; 13.x only after owner decision (D3, D10).
+V5: ∀ cachix push from CI on `main`, Linux outputs only; ⊥ push from developer machine; `verify-cache` job after build → narinfo 200 ∀ Linux `pnpm` path, else red (D5; nix-hk B3–B5: `cachix-action` exits 0 on empty | 403 token).
+V6: ⊥ GitHub release asset in this repo; cachix = only binary channel (D8).
+V7: build & checks ⊥ network except fixed-output fetches (`fetchurl` asset, `fetchPnpmDeps`).
+V8: ⊥ private repo named in committed text (`paradigm/V37`, D6).
