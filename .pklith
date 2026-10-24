@@ -18,6 +18,8 @@ lock-graph|supply|jq|**/flake.lock, gate/lock-graph.sh, gate/lock-graph.jq|git l
 # The whole bats suite at push, so a RED commit can land (`docs/SHELL.md`).
 # pklith v0.1.0 puts only the `coverage` category in hk.pklith.pkl's `push`
 # mapping, hence the category; pklith main ships this row.
+# Private names never reach a commit (gate T3, root V8, paradigm/V37).
+name-guard|gate|gnugrep|**/*|bash gate/name-guard.sh {{files}}|-|-|a private name is staged (root V8); the hit names the denylist entry, never the name
 bats-unit|coverage|bats|-|bats --recursive tests|-|-|a bats test under tests/ failed, or there is no tests/ directory
 # Overrides the catalog row: bats files are bash too (`docs/SHELL.md`).
 shellcheck|lint|shellcheck|**/*.sh, **/*.bash, **/*.bats, .envrc|shellcheck {{files}}|-|-|shell script finding
@@ -26,7 +28,7 @@ shfmt|format|shfmt|**/*.sh, **/*.bash, **/*.bats|shfmt --diff {{files}}|shfmt --
 
 ## types
 type|checks|min|exempt
-*|trailing-whitespace, final-newline, line-endings, no-bom, no-merge-conflict, no-case-conflict, no-broken-symlinks, no-private-key, ripsecrets, typos, editorconfig-checker, no-local-paths|-|-
+*|name-guard, trailing-whitespace, final-newline, line-endings, no-bom, no-merge-conflict, no-case-conflict, no-broken-symlinks, no-private-key, ripsecrets, typos, editorconfig-checker, no-local-paths|-|-
 bats|bats-parse, shellcheck, shfmt, bats-unit|-|-
 editorconfig|-|-|written by pklith (seed or gen)
 gitattributes|-|-|written by pklith (seed or gen)
