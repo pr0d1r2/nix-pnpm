@@ -13,6 +13,7 @@ nix flake + bash scripts. packaging only: fetch upstream's prebuilt `pnpm`, patc
 ## §F FEDERATION
 
 dir|owns|⊥owns|tokens
+pkgs|pnpm derivation from release assets; `pkgs/pnpm/sources.json`|flake wiring (root `flake.nix`), checks (`checks`), bump (`scripts`)|-
 
 ## §N NAV
 
