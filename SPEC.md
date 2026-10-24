@@ -14,6 +14,7 @@ nix flake + bash scripts. packaging only: fetch upstream's prebuilt `pnpm`, patc
 
 dir|owns|⊥owns|tokens
 pkgs|pnpm derivation from release assets; `pkgs/pnpm/sources.json`|flake wiring (root `flake.nix`), checks (`checks`), bump (`scripts`)|-
+checks|flake checks & fixture: version, `fetchPnpmDeps`, `pnpmConfigHook`, overlay|derivation (`pkgs`), CI steps (`.actlith`)|-
 
 ## §N NAV
 
