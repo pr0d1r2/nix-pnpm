@@ -23,6 +23,8 @@ path:**/SPEC.md|markdownlint, mth-fmt, mth-check, sherd-check, sherd-nav, sherd-
 path:.context-limits|sherd-budget|-|-
 envrc|shellcheck|-|-
 gitignore|-|-|ignore patterns, no linter reads them
+markdownlintignore|-|-|ignore patterns, no linter reads them
+yaml|-|-|markdownlint config; yamllint lands with the workflows (root T4)
 lock|-|-|flake lock; the lock-graph guard reads it once it lands (root T3)
 pklith|-|-|written by pklith (seed or gen)
 pkl|-|-|written by pklith (seed or gen)

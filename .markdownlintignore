@@ -1,0 +1,5 @@
+# Vendored byte-identical from paradigm; edits would fork the format.
+FORMAT.md
+FORMAT-EXTENSIONS.md
+# Frozen as HISTORICAL INPUT after the spec run.
+SPEC-PROMPT.md
