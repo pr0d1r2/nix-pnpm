@@ -4,7 +4,7 @@ format 1
 # files switch on (`pklith detect`). It is yours now: pklith never rewrites it.
 #
 # Edited by hand since (root T3): envrc gets shellcheck by type; gitignore is
-# exempt; flake locks wait for the lock-graph guard.
+# exempt; flake locks get the lock-graph guard (gate T1).
 #
 # Not laid, with its reason:
 # - itok: `.context-limits` holds sherd's chain ceilings (`paradigm/V12`);
@@ -13,6 +13,8 @@ format 1
 
 ## checks
 id|category|nix|glob|check|fix|env|msg
+# Root V1 on every tracked flake lock, root and dev (gate T1, gate V1).
+lock-graph|supply|jq|**/flake.lock, gate/lock-graph.sh, gate/lock-graph.jq|git ls-files -z '*flake.lock' \| xargs -0 -n1 bash gate/lock-graph.sh|-|-|a flake lock holds more or fewer than one nixpkgs, or an input locks its own (root V1)
 # The whole bats suite at push, so a RED commit can land (`docs/SHELL.md`).
 # pklith v0.1.0 puts only the `coverage` category in hk.pklith.pkl's `push`
 # mapping, hence the category; pklith main ships this row.
@@ -37,7 +39,7 @@ gitignore|-|-|ignore patterns, no linter reads them
 markdownlintignore|-|-|ignore patterns, no linter reads them
 toml|-|-|typos config; typos reads it on every run, a bad line fails the typos step
 yaml|-|-|markdownlint config; yamllint lands with the workflows (root T4)
-lock|-|-|flake lock; the lock-graph guard reads it once it lands (root T3)
+lock|lock-graph|-|-
 pklith|-|-|written by pklith (seed or gen)
 pkl|-|-|written by pklith (seed or gen)
 pre-commit|-|-|written by pklith (seed or gen)
