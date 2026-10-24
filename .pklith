@@ -25,6 +25,8 @@ bats-unit|coverage|bats|-|bats --recursive tests|-|-|a bats test under tests/ fa
 shellcheck|lint|shellcheck|**/*.sh, **/*.bash, **/*.bats, .envrc|shellcheck {{files}}|-|-|shell script finding
 # Overrides the catalog row: shfmt reads bats from the extension.
 shfmt|format|shfmt|**/*.sh, **/*.bash, **/*.bats|shfmt --diff {{files}}|shfmt --write {{files}}|-|shell script not formatted
+# Every JSON file parses; pkgs/pnpm/sources.json is the first (pkgs T1).
+json|lint|jq|**/*.json|jq -e . {{files}} >/dev/null|-|-|a JSON file does not parse
 
 # The registry judges itself: generated steps match .pklith.
 gen-check|gate|-|.pklith, hk.pklith.pkl, nix/pklith.nix|pklith gen --check|pklith gen|-|hk.pklith.pkl or nix/pklith.nix no longer matches .pklith; run `pklith gen`
@@ -60,6 +62,7 @@ pre-commit|-|-|written by pklith (seed or gen)
 pre-push|-|-|written by pklith (seed or gen)
 sh|shellcheck, shfmt|-|-
 jq|-|-|jq program run by its shell script; that script's bats test runs it
+json|json|-|-
 
 ## rules
 id|kind|select|target|except
