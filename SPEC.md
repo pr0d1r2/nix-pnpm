@@ -46,7 +46,7 @@ self|.|-
 - flake: `packages.<system>.pnpm` & `default` ∀ 4 systems (goal 1). `bin/` = `pnpm`, `pnpx` (`pnpm dlx`), `pn`, `pnx`, as pin's `pnpm_12`; completions bash, fish, zsh. `meta.mainProgram = "pnpm"`, `meta.license = mit`, `meta.sourceProvenance = binaryNativeCode`.
 - flake: `overlays.default` = `final: prev: { pnpm_12 = …; }`, exactly that attr; ⊥ `pnpm` (goal 2, D9).
 - flake: `checks.<system>` — `version`, `fetch-deps`, `config-hook`, `overlay` (`checks` node, D4).
-- flake: `devShells.<system>.default` — gate tools (`dev` node).
+- flake: ⊥ `devShells` in root flake; dev shell = `dev/flake.nix` (`dev` node, `dev:V3`).
 - flake: `nixConfig` substituter `https://pr0d1r2.cachix.org` + its public key, as nix-hk.
 - consumer: `fetchPnpmDeps { pnpm = nix-pnpm.packages.<system>.pnpm; fetcherVersion = 4; … }` & `pnpmConfigHook` w/ same pnpm in `nativeBuildInputs` (goal 3).
 - file: `pkgs/pnpm/sources.json` — version + per-system asset url & hash (`pkgs` node, D10).
