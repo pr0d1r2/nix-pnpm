@@ -56,6 +56,7 @@ path:**/SPEC.md|markdownlint, mth-fmt, mth-check, sherd-check, sherd-nav, sherd-
 path:.context-limits|sherd-budget|-|-
 envrc|shellcheck|-|-
 gitignore|-|-|ignore patterns, no linter reads them
+LICENSE|-|-|license text, no linter reads it
 markdownlintignore|-|-|ignore patterns, no linter reads them
 toml|-|-|typos config; typos reads it on every run, a bad line fails the typos step
 yaml|yamllint|-|-
