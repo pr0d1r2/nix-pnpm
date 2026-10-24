@@ -11,10 +11,21 @@ format 1
 #   itok reads the same file as per-file ceilings and refuses root SPEC.md
 #   above its 2,700 chain ceiling (paradigm T14). sherd-budget gates it.
 
+## checks
+id|category|nix|glob|check|fix|env|msg
+# The whole bats suite at push, so a RED commit can land (`docs/SHELL.md`).
+# pklith v0.1.0 puts only the `coverage` category in hk.pklith.pkl's `push`
+# mapping, hence the category; pklith main ships this row.
+bats-unit|coverage|bats|-|bats --recursive tests|-|-|a bats test under tests/ failed, or there is no tests/ directory
+# Overrides the catalog row: bats files are bash too (`docs/SHELL.md`).
+shellcheck|lint|shellcheck|**/*.sh, **/*.bash, **/*.bats, .envrc|shellcheck {{files}}|-|-|shell script finding
+# Overrides the catalog row: shfmt reads bats from the extension.
+shfmt|format|shfmt|**/*.sh, **/*.bash, **/*.bats|shfmt --diff {{files}}|shfmt --write {{files}}|-|shell script not formatted
+
 ## types
 type|checks|min|exempt
 *|trailing-whitespace, final-newline, line-endings, no-bom, no-merge-conflict, no-case-conflict, no-broken-symlinks, no-private-key, ripsecrets, typos, editorconfig-checker, no-local-paths|-|-
-bats|bats-parse|-|-
+bats|bats-parse, shellcheck, shfmt, bats-unit|-|-
 editorconfig|-|-|written by pklith (seed or gen)
 gitattributes|-|-|written by pklith (seed or gen)
 md|markdownlint|-|-
@@ -32,3 +43,12 @@ pkl|-|-|written by pklith (seed or gen)
 pre-commit|-|-|written by pklith (seed or gen)
 pre-push|-|-|written by pklith (seed or gen)
 sh|shellcheck, shfmt|-|-
+
+## rules
+id|kind|select|target|except
+# Mirrored tests both ways (`docs/SHELL.md`): every script has its bats
+# file, and no bats file outlives its script. Rows for gate/, scripts/ and
+# checks/ land with their first script. TDD order waits for a pklith tag
+# with the `tdd-order` kind (v0.1.0 has none).
+dev-test|exists|dev/*.sh|tests/unit/dev/{stem}.bats|-
+dev-orphan|orphan|tests/unit/dev/*.bats|dev/{stem}.sh|-
