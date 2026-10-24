@@ -15,16 +15,19 @@ sib|scripts|bash: newest stable 12.x, bump of `sources.json`, upstream detection
 
 ## §C CONSTRAINTS
 
-- own `dev/flake.lock`; inputs `nixpkgs-lock` (nixpkgs follows it) + pklith (catalog: hk, mth, sherd, itok); pklith's nixpkgs follows ours ∴ 1 nixpkgs in dev lock graph too.
-- tools: hk, pkl, mth, sherd, itok, nixfmt, statix, deadnix, shellcheck, shfmt, bats, actionlint, jq, gh. ⊥ lefthook (`paradigm/V26`).
-- root `.envrc` = `use flake ./dev`; hooks installed on shell entry (`hk install`).
-- shell on ∀ 4 systems (`paradigm/V20`).
+- own `dev/flake.lock`, ⊥ in consumers' locks. inputs `nixpkgs-lock` (nixpkgs follows it), `nix-hk`, & fleet tools pinned to tags, each following `nixpkgs-lock` & `nix-hk`: microlith `v0.7.4`, sherd `v0.5.4`, characterminator `v0.1.1`, pklith `v0.1.0`, actlith `v0.1.0`, xenolith `v0.1.0` (as nix-orca, 2026-10-24). tag bump = own commit.
+- tools: hk, pkl, git, bats, shellcheck, shfmt, nixfmt, statix, deadnix, gitleaks, jq, cachix, gh + the 6 fleet tools + whatever `pklith gen` names in `nix/pklith.nix`. ⊥ lefthook (`paradigm/V26`).
+- `.envrc` = `use flake ./dev` + `source_env_if_exists .envrc.local`.
+- hooks: shell hook points `core.hooksPath` at pklith-seeded tracked `.githooks/` on every entry once `hk.pkl` exists, idempotent; ⊥ `hk install`; ⊥ hk → says so, ⊥ fallback runner (`paradigm/V23`).
+- shell hook = `dev/shell-hook.sh` (bats `tests/unit/dev/shell-hook.bats`), ⊥ inline in nix; ⊥ fails shell entry.
+- shell on ∀ 4 systems (`paradigm/V20`); fleet tool w/o build on a system (x86_64-darwin today: microlith, characterminator, pklith, actlith, xenolith) → shell still evaluates & names them on entry; gate needing one fails, ⊥ skips.
 
 ## §I INTERFACES
 
 - file: `dev/flake.nix` & `dev/flake.lock`.
 - file: `.envrc` — `use flake ./dev`.
 - cmd: `nix develop ./dev -c hk check --all` — same gate CI runs.
+- cmd: `dev/shell-hook.sh SYSTEM [ABSENT-TOOL...]` — exit 0 always; stderr names missing hk | absent tools.
 
 ## §V INVARIANTS
 
