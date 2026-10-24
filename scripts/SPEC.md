@@ -34,7 +34,7 @@ sib|dev|dev shell flake `dev/flake.nix`, `.envrc`, hook install on entry
 ## §V INVARIANTS
 
 V1: `latest-pnpm-12.sh` ⊥ prints prerelease, 11.x, 13.x, `pnpr@*`; picks `12.10.0` over `12.9.1` (version order, ⊥ lexical | date).
-V2: `bump-pnpm.sh` ⊥ downgrades: newest < pinned → exit 1, file untouched.
+V2: `bump-pnpm.sh` ⊥ downgrades: newest < pinned | newest < `12.14.0` → exit 1, file untouched (`.:V9`).
 V3: digest mismatch | missing digest | failed download → exit 1, `sources.json` byte-identical to before.
 V4: after bump, `sources.json` passes `pkgs:V2` (hash = GitHub digest) ∀ 4 systems.
 V5: ∀ script has mirrored bats & ∀ bats has script (`docs/SHELL.md`).

@@ -24,7 +24,7 @@ sib|dev|dev shell flake `dev/flake.nix`, `.envrc`, hook install on entry
 
 ## §I INTERFACES
 
-- check: `version` — `pnpm --version` = `sources.json` version.
+- check: `version` — `pnpm --version` = `sources.json` version & ≥ `12.14.0` (`.:V9`).
 - check: `fetch-deps` — `fetchPnpmDeps { pname = "nix-pnpm-fixture"; src = ./fixture; inherit pnpm; fetcherVersion = 4; hash = …; }`.
 - check: `config-hook` — `stdenvNoCC` drv w/ `nativeBuildInputs = [ pnpm pnpmConfigHook nodejs-slim ]`, `pnpmDeps` = `fetch-deps`; installs offline, runs `node -e "require('is-number')"`; log ⊥ lockfile-version warning.
 - check: `overlay` — pin + `overlays.default` attr diff = `[ "pnpm_12" ]` (`.:V2`).
