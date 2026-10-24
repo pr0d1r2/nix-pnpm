@@ -56,8 +56,8 @@ envrc|shellcheck|-|-
 gitignore|-|-|ignore patterns, no linter reads them
 markdownlintignore|-|-|ignore patterns, no linter reads them
 toml|-|-|typos config; typos reads it on every run, a bad line fails the typos step
-yaml|-|-|configs (.markdownlint.yaml, .yamllint.yaml); yamllint is laid next (root T4)
-path:.github/workflows/*.yml|actionlint, zizmor|-|-
+yaml|yamllint|-|-
+path:.github/workflows/*.yml|actionlint, zizmor, yamllint|-|-
 actlith|-|-|workflow registry; actlith-check is laid next (root T4)
 path:checks/fixture/pnpm-lock.yaml|-|-|written by the pinned pnpm (checks T1); fetch-deps & config-hook read it
 lock|lock-graph|-|-
