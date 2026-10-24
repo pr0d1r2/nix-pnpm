@@ -1,7 +1,9 @@
 {
   lib,
+  stdenv,
   stdenvNoCC,
   fetchurl,
+  autoPatchelfHook,
   makeWrapper,
   installShellFiles,
   versionCheckHook,
@@ -28,7 +30,14 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     makeWrapper
     installShellFiles
-  ];
+  ]
+  ++ lib.optionals stdenvNoCC.hostPlatform.isLinux [ autoPatchelfHook ];
+
+  # Measured on x86_64-linux: the binary needs libc.so.6, libm, libdl,
+  # libpthread, librt (glibc, which autoPatchelfHook's bintools brings) and
+  # libgcc_s.so.1, which only gcc's lib output carries. The cc itself is
+  # never used: the derivation stays stdenvNoCC.
+  buildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [ stdenv.cc.cc.lib ];
 
   # The upstream binary is already stripped; touching it on darwin would
   # break its signature.
@@ -46,13 +55,22 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  postInstall = lib.optionalString (stdenvNoCC.buildPlatform.canExecute stdenvNoCC.hostPlatform) ''
-    export HOME="$TMPDIR"
-    installShellCompletion --cmd pnpm \
-      --bash <("$out"/bin/pnpm completion bash) \
-      --fish <("$out"/bin/pnpm completion fish) \
-      --zsh <("$out"/bin/pnpm completion zsh)
-  '';
+  # On Linux the binary runs only once its interpreter is set, and the
+  # completions below run it, so autoPatchelf runs here rather than as the
+  # hook's own postFixup step.
+  dontAutoPatchelf = true;
+
+  postInstall =
+    lib.optionalString stdenvNoCC.hostPlatform.isLinux ''
+      autoPatchelf "$out"
+    ''
+    + lib.optionalString (stdenvNoCC.buildPlatform.canExecute stdenvNoCC.hostPlatform) ''
+      export HOME="$TMPDIR"
+      installShellCompletion --cmd pnpm \
+        --bash <("$out"/bin/pnpm completion bash) \
+        --fish <("$out"/bin/pnpm completion fish) \
+        --zsh <("$out"/bin/pnpm completion zsh)
+    '';
 
   doInstallCheck = true;
   nativeInstallCheckInputs = [ versionCheckHook ];
@@ -69,6 +87,19 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   + lib.optionalString stdenvNoCC.hostPlatform.isDarwin ''
     cmp pnpm "$out"/libexec/pnpm/pnpm \
       || { echo "pkgs V4: the installed binary differs from the asset's" >&2; exit 1; }
+  ''
+  + lib.optionalString stdenvNoCC.hostPlatform.isLinux ''
+    interpreter=$(patchelf --print-interpreter "$out"/libexec/pnpm/pnpm)
+    case "$interpreter" in
+      ${builtins.storeDir}/*) ;;
+      *) echo "pkgs V3: interpreter $interpreter is outside the store" >&2; exit 1 ;;
+    esac
+    libs=$("$interpreter" --list "$out"/libexec/pnpm/pnpm)
+    echo "$libs"
+    if grep -q 'not found' <<<"$libs"; then
+      echo "pkgs V3: a shared library of the binary is not found" >&2
+      exit 1
+    fi
   ''
   + ''
     runHook postInstallCheck
