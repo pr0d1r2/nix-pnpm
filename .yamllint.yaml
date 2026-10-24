@@ -8,3 +8,7 @@ rules:
   # SHA-pinned action references with their version comment exceed 80.
   line-length:
     max: 120
+# Written by the pinned pnpm (checks T1), never by hand; its integrity
+# lines run past any cap.
+ignore: |
+  checks/fixture/pnpm-lock.yaml
