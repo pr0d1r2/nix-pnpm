@@ -16,11 +16,13 @@ sib|gate|gate scripts: lock-graph, root-inputs & name guards; their bats
 
 ## §C CONSTRAINTS
 
-- `checks/default.nix` = `{ pkgs, pnpm }: { … }`, wired from root `flake.nix` ∀ 4 systems.
+- `checks/default.nix` = `{ pkgs, pnpm, overlay }: { … }` (`overlay` = `self.overlays.default`, only way to test the real one), wired from root `flake.nix` ∀ 4 systems.
 - fixture `checks/fixture/`: `package.json` (1 dep `is-number@7.0.0`, 0 transitive) + `pnpm-lock.yaml` written by pinned pnpm 12 (`lockfileVersion: '9.0'`, `.:R7`). `packageManager` = `pnpm@12.14.0` on purpose (≠ pinned) ∴ proves ⊥ self-switch inside fetcher (`.:R8` `pm_on_fail=ignore`).
 - fixture lockfile regenerated only when pnpm 12 lockfile format changes; regen = own commit naming the pnpm version.
-- deps hash fixed in `checks/default.nix`; mismatch → red, ⊥ auto-update.
+- deps hash fixed in `checks/default.nix`, per OS: darwin pnpm 12.15.0 leaves empty `v11/links/` in store, Linux ⊥ (only diff, tarballs unpacked & diffed) ∴ 2 hashes keyed `isDarwin`; aarch64-linux & x86_64-darwin hashes assumed = their OS, ⊥ measured. mismatch → red, ⊥ auto-update.
 - shell in checks via `builtins.readFile` of `checks/*.sh`, ⊥ inline (`docs/SHELL.md`); each mirrored by `tests/unit/checks/<name>.bats`.
+- `config-hook` runs hook from `buildPhase` (`dontPnpmConfigure = true`) ∴ log captured; `set -u` off around hook ∵ pin hook reads `$pnpmWorkspace` unguarded (`unbound variable`). `fetch-deps` runs `version.sh` as `prePnpmInstall` (`.:V9` inside fetcher).
+- fixture lockfile regen ! `pnpm_config_pm_on_fail=ignore`: w/o it 12.15.0 obeys `packageManager`, downloads 12.14.0 & writes `packageManagerDependencies` + 14 `@pnpm/exe.*` into lockfile (`.:R11`).
 - reproducibility (`--rebuild`) = CLI flag, ⊥ expressible as derivation ∴ CI step, ⊥ flake check.
 
 ## §I INTERFACES
@@ -43,7 +45,7 @@ V5: `overlay` check fails when overlay sets any attr ≠ `pnpm_12` (`.:V2`).
 
 id|status|task|cites
 T1|x|fixture `package.json` & `pnpm-lock.yaml` via pinned pnpm 12|V1,V3
-T2|.|`fetch-deps` + hash; `--rebuild` CI step|V1,V4
+T2|~|`fetch-deps` + hash; `--rebuild` CI step|V1,V4
 T3|x|`config-hook` w/ log assert; planted lockfile `lockfileVersion: '10.0'` proves V2 check rejects|V2,V3
 T4|x|`version` & `overlay` checks; planted extra overlay attr proves V5|V5
 

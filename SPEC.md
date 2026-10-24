@@ -66,6 +66,7 @@ R7|pnpm 12 lockfile & store|12.15.0 `install --lockfile-only` writes `lockfileVe
 R8|pin `fetchPnpmDeps`|args `pnpm`, `fetcherVersion` ∈ 1–4 (required); reads `pnpm.version` & `pnpm.nodejs-slim`; pnpm ≥ 11 → env `pnpm_config_pm_on_fail=ignore`, `side_effects_cache=false`, `force_ignores_platform=true`; `install --force --ignore-scripts --frozen-lockfile`|`pkgs/build-support/node/fetch-pnpm-deps/default.nix` @ pin
 R9|consumer nix-orca 2026-10-24|`nix/linux/sources.nix`: 2 `fetchPnpmDeps` (`fetcherVersion = 4`) on pin pnpm 11.27.0 over Orca `pnpm-lock.yaml` v9.0; `package.nix` uses `pnpmConfigHook`. Orca v1.4.237 `packageManager` `pnpm@12.14.0`|nix-orca `nix/linux/SPEC.md` R2, R3; `packageManager` from prompt (v1.4.237)
 R10|package build wave 1 2026-10-24|aarch64-darwin `/nix/store/zn2f3grvfifg9rmpmz3prxm7hm66gvi3-pnpm-12.15.0` (`codesign -v` ok); x86_64-linux `/nix/store/4lzab59p6r19zk9gypgvmhqvlsrh029x-pnpm-12.15.0`, closure 96.7 MiB (glibc, gcc libgcc, bash); linux-x64 needs `libgcc_s.so.1` `librt` `libpthread` `libm` `libdl` `libc`. x86_64-darwin ⊥ buildable on owner Mac (⊥ Rosetta). aarch64-linux evaluates, ⊥ builder here|wave-1 `pkgs` worker, `nix build`, remote builder `ssh-ng`
+R11|checks wave 2 2026-10-24|fixture deps hash per OS: aarch64-darwin `sha256-hieVZKtXaEJNz2y7Yn1eh85k0tfg1zEd1xJnsna0OqQ=`, x86_64-linux `sha256-duv8c+5cLVlcEAYwNA06NOROBMNHkzHlW/MDMG7yRcE=`; only diff = empty `v11/links/` on darwin; `--rebuild` reproduces both. pin fetcher's lockfile check `${lockfileVersion:0:1} -gt 12` compares 1 char ∴ `'10.0'` passes it; pnpm refuses instead: `ERR_PNPM_BROKEN_LOCKFILE … lockfileVersion of 10.0 is incompatible`. outside fetcher pnpm 12.15.0 obeys `packageManager` (downloads it) unless `pnpm_config_pm_on_fail=ignore`|wave-2 `checks` worker, `nix build`, tarball diff
 
 ## §V INVARIANTS
 
@@ -92,6 +93,7 @@ T7|.|GitHub repo `pr0d1r2/nix-pnpm` PUBLIC, first push, `CACHIX_AUTH_TOKEN` secr
 T8|.|after first green `main` w/ cache: issue in nix-orca to switch its deps fetch to this pnpm & re-measure both deps hashes, w/ owner approval (D7)|V5
 T9|.|`x86_64-darwin` in CI once pipelith carries it (paradigm T19); until then built locally before each bump lands|V3
 T10|.|RISK 2026-10-21: nixpkgs 26.05 last w/ `x86_64-darwin` (paradigm T21); revisit system list before `nixpkgs-lock` moves past 26.05|V3
+T11|.|nixpkgs `fetchPnpmDeps` lockfile-major check compares 1 char (`.:R11`): issue upstream w/ owner approval; note per-OS deps hash for consumers in README (`.:T6`)|V7
 
 ## §B BUGS
 
