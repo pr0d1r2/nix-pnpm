@@ -89,7 +89,7 @@ T2|x|dev shell per `dev` node; human reloads shell after it lands (`paradigm/V20
 T3|~|guardrails via pklith `.pklith` → `hk.pkl`, one check per commit, planted violation each (`paradigm/V21`): nixfmt, statix, deadnix, shellcheck, shfmt, bats mirror both ways, TDD order, actionlint, spec checks, lock-graph guard, name guard|V1,V8
 T4|~|CI via actlith `.actlith`: build & `nix flake check`, cachix push ∀ CI system on `main`, `verify-cache`, daily upstream detection (§I.ci)|V3,V6,V10
 T5|~|waves, hand-planned (`sherd wave` reads Rust edges only, sherd#132): wave 1 = `pkgs` (+ root `flake.nix` wiring) ∥ `scripts`; wave 2 = `checks` (needs `pkgs`). one node per worker, own worktree, TDD (`paradigm/V14`); wave ends w/ reconciliation commit (`paradigm/V18`)|V2,V4,V7
-T6|.|docs: `README.md` (consumer snippet for `fetchPnpmDeps`), `LICENSE` MIT, `docs/LLM-DISCLAIMER.md` (`paradigm/V33`)|V8
+T6|x|docs: `README.md` (consumer snippet for `fetchPnpmDeps`), `LICENSE` MIT, `docs/LLM-DISCLAIMER.md` (`paradigm/V33`)|V8
 T7|.|GitHub repo `pr0d1r2/nix-pnpm` PUBLIC, first push, `CACHIX_AUTH_TOKEN` secret (per-cache write token): ∀ w/ owner approval|V5,V8
 T8|.|after first green `main` w/ cache: issue in nix-orca to switch its deps fetch to this pnpm & re-measure both deps hashes, w/ owner approval (D7)|V5
 T9|.|`x86_64-darwin` in CI once pipelith carries it (paradigm T19); until then built locally before each bump lands|V3
