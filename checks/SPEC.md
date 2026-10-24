@@ -31,7 +31,7 @@ sib|gate|gate scripts: lock-graph, root-inputs & name guards; their bats
 - check: `fetch-deps` — `fetchPnpmDeps { pname = "nix-pnpm-fixture"; src = ./fixture; inherit pnpm; fetcherVersion = 4; hash = …; }`.
 - check: `config-hook` — `stdenvNoCC` drv w/ `nativeBuildInputs = [ pnpm pnpmConfigHook nodejs-slim ]`, `pnpmDeps` = `fetch-deps`; installs offline, runs `node -e "require('is-number')"`; log ⊥ lockfile-version warning.
 - check: `overlay` — pin + `overlays.default` attr diff = `[ "pnpm_12" ]` (`.:V2`).
-- ci: `nix build --rebuild .#checks.<system>.fetch-deps` after first build.
+- cmd: `checks/rebuild.sh` → builds `.#checks.<current system>.fetch-deps`, then again w/ `--rebuild`; exit ≠ 0 on either; seam `NIX`. CI job `rebuild` in `assert.yml` ∀ CI system.
 
 ## §V INVARIANTS
 
