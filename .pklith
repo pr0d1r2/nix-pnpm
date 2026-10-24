@@ -32,6 +32,8 @@ gen-check|gate|-|.pklith, hk.pklith.pkl, nix/pklith.nix|pklith gen --check|pklit
 # one checkout; `sherd wave` (root T5) runs parallel worktrees (paradigm/V15).
 no-core-worktree|gate|git|-|test -z "$(git config --local --get core.worktree)"|-|-|core.worktree is set in the shared .git/config, so every worktree acts on one checkout (paradigm/V15)
 
+# The gate is complete, fresh, runnable, and has steps (paradigm/V22).
+confirm|gate|-|-|pklith confirm|-|-|the gate is incomplete, stale, unrunnable or evaluates to no steps (paradigm/V22)
 # Every tracked file has a type, no row is stale, every claim reaches its
 # files, and the mirror rules hold.
 pklith-check|gate|-|-|pklith check|-|-|a tracked file type has no row in .pklith, a row matches nothing, a claimed check never reaches its files, or a mirror rule fails
@@ -52,7 +54,7 @@ markdownlintignore|-|-|ignore patterns, no linter reads them
 toml|-|-|typos config; typos reads it on every run, a bad line fails the typos step
 yaml|-|-|markdownlint config; yamllint lands with the workflows (root T4)
 lock|lock-graph|-|-
-pklith|gen-check, pklith-check|-|-
+pklith|gen-check, pklith-check, confirm|-|-
 pkl|-|-|written by pklith (seed or gen)
 pre-commit|-|-|written by pklith (seed or gen)
 pre-push|-|-|written by pklith (seed or gen)
