@@ -33,7 +33,7 @@ self|.|-
 - asset = `pnpm` executable + `dist/` (bundled node-gyp & helpers) ∴ install both side by side: binary finds `dist/` next to itself.
 - Linux asset = dynamically linked glibc ELF ∴ `autoPatchelfHook`; darwin asset links system frameworks + `/usr/lib/libiconv.2.dylib` only ∴ ⊥ patched.
 - pin `fetchPnpmDeps` reads `pnpm.version` (lockfile major check) & `pnpm.nodejs-slim` (`pnpm-fixup-state-db` override) ∴ package ! carry `passthru.nodejs-slim` = pin's `nodejs-slim`. ⊥ `passthru.fetchDeps` | `configHook` (deprecated in pin).
-- track stable 12.x only: bump picks newest non-prerelease `v12.*` tag from release list, ⊥ `releases/latest`, ⊥ `pnpr@*`, ⊥ 13.x w/o owner decision (D3, D10).
+- track stable 12.x only: bump picks newest non-prerelease `v12.*` tag from release list, ⊥ `releases/latest`, ⊥ `pnpr@*`, ⊥ 13.x w/o owner decision (D3, D10). floor 12.14.0 (owner 2026-10-24, Orca `packageManager`, `.:R9`).
 - one sources file: version + 4 hashes; ∀ hash = GitHub asset `digest` (sha256), cross-checked by download; source of each recorded (D10, prompt "verify the tarball").
 - cache: Linux outputs pushed to cachix `pr0d1r2` from CI only, ⊥ developer machine (D5); cachix = only binary channel, ⊥ GitHub release assets (D8).
 - public from start, MIT (D6). ⊥ private repo named in committed text (`paradigm/V37`).
@@ -75,6 +75,7 @@ V5: ∀ cachix push from CI on `main`, Linux outputs only; ⊥ push from develop
 V6: ⊥ GitHub release asset in this repo; cachix = only binary channel (D8).
 V7: build & checks ⊥ network except fixed-output fetches (`fetchurl` asset, `fetchPnpmDeps`).
 V8: ⊥ private repo named in committed text (`paradigm/V37`, D6).
+V9: pinned version ≥ `12.14.0` (owner 2026-10-24); `checks` `version` & `scripts/bump-pnpm.sh` refuse below (version order, `sort -V`).
 
 ## §T TASKS
 
