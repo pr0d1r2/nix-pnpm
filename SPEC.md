@@ -9,3 +9,7 @@ LINEAGE: `SPEC-PROMPT.md` (HISTORICAL after this run). where it & this spec diff
 ## §D DESCRIPTION
 
 nix flake + bash scripts. packaging only: fetch upstream's prebuilt `pnpm`, patch for nix on Linux, test, cache. ⊥ fork, ⊥ source build (D8). consumer surface: `packages.<system>.pnpm` & `default`, `overlays.default` (`pnpm_12` only). first consumer nix-orca, switches in own PR (D7). public, MIT (D6). fleet member, full paradigm conformance.
+
+## §F FEDERATION
+
+dir|owns|⊥owns|tokens
