@@ -6,7 +6,7 @@
 # scripts 3,164 tok.
 SPEC.md                        2700
 checks                         3700
-dev                            3200
+dev                            3500
 gate                           3500
 pkgs                           3700
 scripts                        3800
