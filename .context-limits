@@ -1,0 +1,11 @@
+# Per-node token CHAIN ceilings (paradigm/V11, paradigm/V12), gated by `sherd budget`.
+# A chain is the cost of reaching a node: root, every ancestor, the node.
+# Set 2026-10-24 at measured + ~18% (paradigm/V12 asks 12-20%), rounded up to
+# the next 100. A raise is its own reviewed commit with the measurement;
+# sherdify before raising. Measured the same day: root 2,281 tok; deepest
+# scripts 3,164 tok.
+SPEC.md                        2700
+checks                         3700
+dev                            3200
+pkgs                           3700
+scripts                        3800

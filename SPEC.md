@@ -79,7 +79,7 @@ V8: ⊥ private repo named in committed text (`paradigm/V37`, D6).
 ## §T TASKS
 
 id|status|task|cites
-T1|.|`.context-limits`: ∀ node measured by `sherd budget` + 12–20% slack (`paradigm/V12`)|-
+T1|x|`.context-limits`: ∀ node measured by `sherd budget` + 12–20% slack (`paradigm/V12`)|-
 T2|.|dev shell per `dev` node; human reloads shell after it lands (`paradigm/V20`)|V1
 T3|.|guardrails via pklith `.pklith` → `hk.pkl`, one check per commit, planted violation each (`paradigm/V21`): nixfmt, statix, deadnix, shellcheck, shfmt, bats mirror both ways, TDD order, actionlint, spec checks, lock-graph guard, name guard|V1,V8
 T4|.|CI via actlith `.actlith`: build & `nix flake check`, cachix push Linux on `main`, `verify-cache`, daily upstream detection (§I.ci)|V3,V5,V6
