@@ -42,10 +42,10 @@ V5: `overlay` check fails when overlay sets any attr ≠ `pnpm_12` (`.:V2`).
 ## §T TASKS
 
 id|status|task|cites
-T1|.|fixture `package.json` & `pnpm-lock.yaml` via pinned pnpm 12|V1,V3
+T1|x|fixture `package.json` & `pnpm-lock.yaml` via pinned pnpm 12|V1,V3
 T2|.|`fetch-deps` + hash; `--rebuild` CI step|V1,V4
-T3|.|`config-hook` w/ log assert; planted lockfile `lockfileVersion: '10.0'` proves V2 check rejects|V2,V3
-T4|.|`version` & `overlay` checks; planted extra overlay attr proves V5|V5
+T3|x|`config-hook` w/ log assert; planted lockfile `lockfileVersion: '10.0'` proves V2 check rejects|V2,V3
+T4|x|`version` & `overlay` checks; planted extra overlay attr proves V5|V5
 
 ## §B BUGS
 
