@@ -35,3 +35,15 @@ self|.|-
 - public from start, MIT (D6). ⊥ private repo named in committed text (`paradigm/V37`).
 - outward acts need explicit owner approval: create GitHub repo, first push, cachix token, upstream issues.
 - out of scope: pnpm 11 | 10 (pin has them), corepack, Windows, musl. nix-orca switch = nix-orca's own PR (D7).
+
+## §I INTERFACES
+
+- flake: `packages.<system>.pnpm` & `default` ∀ 4 systems (goal 1). `bin/` = `pnpm`, `pnpx` (`pnpm dlx`), `pn`, `pnx`, as pin's `pnpm_12`; completions bash, fish, zsh. `meta.mainProgram = "pnpm"`, `meta.license = mit`, `meta.sourceProvenance = binaryNativeCode`.
+- flake: `overlays.default` = `final: prev: { pnpm_12 = …; }`, exactly that attr; ⊥ `pnpm` (goal 2, D9).
+- flake: `checks.<system>` — version, fetch-deps, lockfile (`checks` node, D4).
+- flake: `devShells.<system>.default` — gate tools (`dev` node).
+- flake: `nixConfig` substituter `https://pr0d1r2.cachix.org` + its public key, as nix-hk.
+- consumer: `fetchPnpmDeps { pnpm = nix-pnpm.packages.<system>.pnpm; fetcherVersion = 4; … }` & `pnpmConfigHook` w/ same pnpm in `nativeBuildInputs` (goal 3).
+- file: `pkgs/pnpm/sources.json` — version + per-system asset url & hash (`pkgs` node, D10).
+- cmd: `scripts/bump-pnpm.sh [--force]` — move to newest stable 12.x, prints `NEW_VERSION=<v>` when changed (`scripts` node, goal 4).
+- ci: GitHub Actions rendered by actlith from `.actlith` (`paradigm/V28`): build & `nix flake check` ∀ CI system; cachix push Linux on `main` only; `verify-cache` job after build; daily upstream detection, red on newer 12.x, ⊥ pushes branch, ⊥ opens PR (nix-hk B8, B9).
