@@ -16,6 +16,7 @@ dir|owns|⊥owns|tokens
 pkgs|pnpm derivation from release assets; `pkgs/pnpm/sources.json`|flake wiring (root `flake.nix`), checks (`checks`), bump (`scripts`)|-
 checks|flake checks & fixture: version, `fetchPnpmDeps`, `pnpmConfigHook`, overlay|derivation (`pkgs`), CI steps (`.actlith`)|-
 scripts|bash: newest stable 12.x, bump of `sources.json`, upstream detection; mirrored bats|derivation (`pkgs`), workflows (`.actlith`)|-
+dev|dev shell flake `dev/flake.nix`, `.envrc`, hook install on entry|hk steps (`.pklith`, `hk.pkl`), package (`pkgs`)|-
 
 ## §N NAV
 

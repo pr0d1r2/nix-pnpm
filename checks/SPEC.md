@@ -10,6 +10,8 @@ rel|path|lens
 up|.|-
 self|checks|flake checks & fixture: version, `fetchPnpmDeps`, `pnpmConfigHook`, overlay
 sib|pkgs|pnpm derivation from release assets; `pkgs/pnpm/sources.json`
+sib|scripts|bash: newest stable 12.x, bump of `sources.json`, upstream detection; mirrored bats
+sib|dev|dev shell flake `dev/flake.nix`, `.envrc`, hook install on entry
 
 ## §C CONSTRAINTS
 
