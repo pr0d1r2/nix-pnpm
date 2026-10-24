@@ -56,7 +56,9 @@ envrc|shellcheck|-|-
 gitignore|-|-|ignore patterns, no linter reads them
 markdownlintignore|-|-|ignore patterns, no linter reads them
 toml|-|-|typos config; typos reads it on every run, a bad line fails the typos step
-yaml|-|-|markdownlint config; yamllint lands with the workflows (root T4)
+yaml|-|-|configs (.markdownlint.yaml, .yamllint.yaml); yamllint is laid next (root T4)
+path:.github/workflows/*.yml|-|-|workflows (root T4); actionlint, zizmor, yamllint and actlith-check are laid next, one per commit
+actlith|-|-|workflow registry; actlith-check is laid next (root T4)
 path:checks/fixture/pnpm-lock.yaml|-|-|written by the pinned pnpm (checks T1); fetch-deps & config-hook read it
 lock|lock-graph|-|-
 path:flake.lock|lock-graph, root-inputs|-|-
@@ -78,7 +80,8 @@ dev-test|exists|dev/*.sh|tests/unit/dev/{stem}.bats|-
 dev-orphan|orphan|tests/unit/dev/*.bats|dev/{stem}.sh|-
 gate-test|exists|gate/*.sh|tests/unit/gate/{stem}.bats|-
 gate-orphan|orphan|tests/unit/gate/*.bats|gate/{stem}.sh|-
-scripts-test|exists|scripts/*.sh|tests/unit/scripts/{stem}.bats|-
+# scripts/actlith/ is written by `actlith gen` and tested in actlith (root T4).
+scripts-test|exists|scripts/*.sh|tests/unit/scripts/{stem}.bats|scripts/actlith/*.sh
 scripts-orphan|orphan|tests/unit/scripts/*.bats|scripts/{stem}.sh|-
 checks-test|exists|checks/*.sh|tests/unit/checks/{stem}.bats|-
 checks-orphan|orphan|tests/unit/checks/*.bats|checks/{stem}.sh|-

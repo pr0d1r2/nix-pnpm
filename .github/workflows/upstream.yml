@@ -1,0 +1,34 @@
+# Hand-written, listed in .actlith: detection only (root §I ci, nix-hk B9).
+# Daily, it goes red when upstream has a newer stable pnpm 12.x than
+# pkgs/pnpm/sources.json pins, naming both versions. It never pushes a
+# branch and never opens a PR: a person or the loop runs
+# scripts/bump-pnpm.sh and the gate decides (paradigm docs/NIX.md).
+---
+name: upstream
+
+on:
+  schedule:
+    - cron: '20 6 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: upstream-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    name: detect
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      # pipefail: a failing script under a pipe must fail the step (nix-hk B8).
+      - run: bash scripts/check-upstream.sh
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

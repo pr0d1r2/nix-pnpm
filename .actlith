@@ -1,0 +1,15 @@
+format 1
+
+# Workflows for nix-pnpm (root T4, root §I ci). `build` is generated; the
+# rest are hand-written, each listed with the reason actlith v0.1.0's kind
+# does not fit; `actlith check` holds the directory to this list.
+
+## workflows
+id|kind|systems|cache|args
+build|build|x86_64-linux,aarch64-linux,aarch64-darwin|pr0d1r2|package=pnpm
+
+## hand-written
+path|reason
+.github/workflows/ci.yml|the `gate` kind with `cache` pushes from same-repo pull requests too, and pushes come from main only (root V10); without `cache` it reads none and builds every gate tool from source. This one reads the cache only
+.github/workflows/upstream.yml|detection only (root §I ci, nix-hk B9): red on a newer stable 12.x, read-only token; the `upstream` kind grants contents and pull-requests write and opens a PR
+.github/workflows/assert.yml|no kind asserts the pin's nixpkgs rev against nixpkgs-lock (root V1) or rebuilds a fixed-output check (checks V1, checks T2)
