@@ -17,7 +17,7 @@ sib|gate|gate scripts: lock-graph, root-inputs & name guards; their bats
 ## §C CONSTRAINTS
 
 - `set -euo pipefail` ∀ script; CI steps run them under `shell: bash` ∴ pipefail holds (nix-hk B8).
-- seams in header: `GH` (default `gh`), `CURL` (default `curl`), `NIX` (default `nix`); bats stub them, ⊥ network in tests.
+- seams in header: `GH` (default `gh`), `CURL` (default `curl`), `NIX` (default `nix`), `SOURCES` (default `pkgs/pnpm/sources.json` under repo root); bats stub them, ⊥ network in tests.
 - one script one job: `latest-pnpm-12.sh` finds; `bump-pnpm.sh` writes; `check-upstream.sh` compares for CI.
 - release list via `$GH api --paginate repos/pnpm/pnpm/releases`; keep tag ~ `^v12\.[0-9]+\.[0-9]+$`, `prerelease == false`, `draft == false`; max by `sort -V`, ⊥ by date (11.x & `pnpr@*` interleave, `.:R2`).
 - bump writes `pkgs/pnpm/sources.json` only (D3): version + 4 asset url/hash. ⊥ edits fixture deps hash; a pnpm whose fetch changes it → `fetch-deps` red → fix in own commit, naming that deps hashes depend on fetching pnpm (prompt; nix-orca D7 re-measures its own).
@@ -29,7 +29,7 @@ sib|gate|gate scripts: lock-graph, root-inputs & name guards; their bats
 
 - cmd: `scripts/latest-pnpm-12.sh` → stdout `12.x.y`; none → exit 1.
 - cmd: `scripts/bump-pnpm.sh [--force]` → writes `sources.json` when newer (| `--force`: re-resolve current); stdout `NEW_VERSION=<v>` only when file changed; already current → exit 0, ⊥ stdout.
-- cmd: `scripts/check-upstream.sh` → exit 0 when pinned = newest stable 12.x; exit 1 + `::error::` line naming both versions when newer exists.
+- cmd: `scripts/check-upstream.sh` → exit 0 + 1 info line when pinned = newest stable 12.x; exit 1 + `::error::` line naming both versions when pinned ≠ newest (behind | ahead).
 - file: `tests/unit/scripts/<name>.bats` ∀ script (`docs/SHELL.md` mirror).
 
 ## §V INVARIANTS
@@ -39,6 +39,7 @@ V2: `bump-pnpm.sh` ⊥ downgrades: newest < pinned | newest < `12.14.0` → exit
 V3: digest mismatch | missing digest | failed download → exit 1, `sources.json` byte-identical to before.
 V4: after bump, `sources.json` passes `pkgs:V2` (hash = GitHub digest) ∀ 4 systems.
 V5: ∀ script has mirrored bats & ∀ bats has script (`docs/SHELL.md`).
+V6: pin newer than upstream newest stable 12.x → `check-upstream.sh` exit 1 (yanked | retagged release surfaces, ⊥ silent).
 
 ## §T TASKS
 

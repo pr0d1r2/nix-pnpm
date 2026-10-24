@@ -65,6 +65,7 @@ R6|release assets 12.15.0|14 assets; ours: `darwin-arm64` sha256 `6a41a287…6ef
 R7|pnpm 12 lockfile & store|12.15.0 `install --lockfile-only` writes `lockfileVersion: '9.0'` ∴ pin fetcher's major check (9 ≤ 12) passes. store dir `STORE_VERSION = "v11"` ∴ fetcher's `v11` fixup (`index.db` → SQL dump @ `fetcherVersion = 4`) applies|fixture run; `pnpm/crates/store-dir/src/store_dir.rs`
 R8|pin `fetchPnpmDeps`|args `pnpm`, `fetcherVersion` ∈ 1–4 (required); reads `pnpm.version` & `pnpm.nodejs-slim`; pnpm ≥ 11 → env `pnpm_config_pm_on_fail=ignore`, `side_effects_cache=false`, `force_ignores_platform=true`; `install --force --ignore-scripts --frozen-lockfile`|`pkgs/build-support/node/fetch-pnpm-deps/default.nix` @ pin
 R9|consumer nix-orca 2026-10-24|`nix/linux/sources.nix`: 2 `fetchPnpmDeps` (`fetcherVersion = 4`) on pin pnpm 11.27.0 over Orca `pnpm-lock.yaml` v9.0; `package.nix` uses `pnpmConfigHook`. Orca v1.4.237 `packageManager` `pnpm@12.14.0`|nix-orca `nix/linux/SPEC.md` R2, R3; `packageManager` from prompt (v1.4.237)
+R10|package build wave 1 2026-10-24|aarch64-darwin `/nix/store/zn2f3grvfifg9rmpmz3prxm7hm66gvi3-pnpm-12.15.0` (`codesign -v` ok); x86_64-linux `/nix/store/4lzab59p6r19zk9gypgvmhqvlsrh029x-pnpm-12.15.0`, closure 96.7 MiB (glibc, gcc libgcc, bash); linux-x64 needs `libgcc_s.so.1` `librt` `libpthread` `libm` `libdl` `libc`. x86_64-darwin ⊥ buildable on owner Mac (⊥ Rosetta). aarch64-linux evaluates, ⊥ builder here|wave-1 `pkgs` worker, `nix build`, remote builder `ssh-ng`
 
 ## §V INVARIANTS
 
