@@ -19,3 +19,19 @@ dir|owns|⊥owns|tokens
 rel|path|lens
 up|-|-
 self|.|-
+
+## §C CONSTRAINTS
+
+- lang = nix + bash. paradigm `docs/NIX.md`: nixfmt, statix, deadnix, `nix flake check` only when push touches what flake reads. `docs/SHELL.md`: one script one job, ⊥ shell functions except `info` `warn` `fatal`, extract ⊥ embed (⊥ inline shell in nix | workflow), mirrored bats both ways, TDD order on push, env-var seams named in script header.
+- 1 root input `nixpkgs-lock`; `nixpkgs.follows = "nixpkgs-lock/nixpkgs"`; ⊥ 2nd nixpkgs, ⊥ flake-utils (D1). pin today `da6dc0e` (nixos-26.05). gate tools in dev shell, ⊥ extra root input.
+- systems: `aarch64-darwin` `x86_64-darwin` `x86_64-linux` `aarch64-linux` (goal 1, `paradigm/V28`). actlith refuses `x86_64-darwin` today (paradigm T19) ∴ that one built locally until pipelith carries it, as nix-hk.
+- src = upstream GitHub release assets `pnpm-darwin-arm64` `pnpm-darwin-x64` `pnpm-linux-x64` `pnpm-linux-arm64` `.tar.gz` (D8). ⊥ musl, ⊥ npm tarball (shim downloads binary on first use), ⊥ pin `generic.nix` | `generic-rust.nix` (both fail on 12.15.0, §R).
+- asset = `pnpm` executable + `dist/` (bundled node-gyp & helpers) ∴ install both side by side: binary finds `dist/` next to itself.
+- Linux asset = dynamically linked glibc ELF ∴ `autoPatchelfHook`; darwin asset links system frameworks + `/usr/lib/libiconv.2.dylib` only ∴ ⊥ patched.
+- pin `fetchPnpmDeps` reads `pnpm.version` (lockfile major check) & `pnpm.nodejs-slim` (`pnpm-fixup-state-db` override) ∴ package ! carry `passthru.nodejs-slim` = pin's `nodejs-slim`. ⊥ `passthru.fetchDeps` | `configHook` (deprecated in pin).
+- track stable 12.x only: bump picks newest non-prerelease `v12.*` tag from release list, ⊥ `releases/latest`, ⊥ `pnpr@*`, ⊥ 13.x w/o owner decision (D3, D10).
+- one sources file: version + 4 hashes; ∀ hash = GitHub asset `digest` (sha256), cross-checked by download; source of each recorded (D10, prompt "verify the tarball").
+- cache: Linux outputs pushed to cachix `pr0d1r2` from CI only, ⊥ developer machine (D5); cachix = only binary channel, ⊥ GitHub release assets (D8).
+- public from start, MIT (D6). ⊥ private repo named in committed text (`paradigm/V37`).
+- outward acts need explicit owner approval: create GitHub repo, first push, cachix token, upstream issues.
+- out of scope: pnpm 11 | 10 (pin has them), corepack, Windows, musl. nix-orca switch = nix-orca's own PR (D7).
