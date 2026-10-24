@@ -43,7 +43,7 @@ V5: ∀ script has mirrored bats & ∀ bats has script (`docs/SHELL.md`).
 ## §T TASKS
 
 id|status|task|cites
-T1|.|RED bats then `latest-pnpm-12.sh`, fixture release JSON incl. `v11.28.8`, `pnpr@0.1.0-alpha.16`, `v12.9.1`, `v12.10.0`, a prerelease|V1,V5
+T1|x|RED bats then `latest-pnpm-12.sh`, fixture release JSON incl. `v11.28.8`, `pnpr@0.1.0-alpha.16`, `v12.9.1`, `v12.10.0`, a prerelease|V1,V5
 T2|.|RED bats then `bump-pnpm.sh`: newer, current, `--force`, downgrade, bad digest|V2,V3,V4,V5
 T3|.|RED bats then `check-upstream.sh`|V5
 

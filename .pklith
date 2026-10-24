@@ -71,3 +71,5 @@ dev-test|exists|dev/*.sh|tests/unit/dev/{stem}.bats|-
 dev-orphan|orphan|tests/unit/dev/*.bats|dev/{stem}.sh|-
 gate-test|exists|gate/*.sh|tests/unit/gate/{stem}.bats|-
 gate-orphan|orphan|tests/unit/gate/*.bats|gate/{stem}.sh|-
+scripts-test|exists|scripts/*.sh|tests/unit/scripts/{stem}.bats|-
+scripts-orphan|orphan|tests/unit/scripts/*.bats|scripts/{stem}.sh|-
