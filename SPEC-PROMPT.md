@@ -1,4 +1,4 @@
-DRAFT INPUT. This file is the prompt for the first spec run of this repository.
+HISTORICAL INPUT. This file is the prompt for the first spec run of this repository.
 Once that run lands SPEC.md and its node specs, they are the law; where
 they differ from this file, they win. Written 2026-10-24 by an agent
 working in nix-orca, from the owner's decision there (nix-orca root T18,
