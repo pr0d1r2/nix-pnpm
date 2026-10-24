@@ -24,6 +24,7 @@ path:.context-limits|sherd-budget|-|-
 envrc|shellcheck|-|-
 gitignore|-|-|ignore patterns, no linter reads them
 markdownlintignore|-|-|ignore patterns, no linter reads them
+toml|-|-|typos config; typos reads it on every run, a bad line fails the typos step
 yaml|-|-|markdownlint config; yamllint lands with the workflows (root T4)
 lock|-|-|flake lock; the lock-graph guard reads it once it lands (root T3)
 pklith|-|-|written by pklith (seed or gen)

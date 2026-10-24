@@ -1,0 +1,10 @@
+# typos: words the checker would "fix" wrongly (root T3).
+
+[default]
+# Hex digests quoted from upstream (the `packageManager` sha512 form):
+# typos reads fragments of them as words.
+extend-ignore-re = ["sha512\\.[0-9a-f]+"]
+
+[default.extend-words]
+# pnpm's own short alias binary `pn` (and `pnx`), as upstream ships it.
+pn = "pn"
