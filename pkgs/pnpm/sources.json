@@ -1,0 +1,25 @@
+{
+  "assets": {
+    "aarch64-darwin": {
+      "hash": "sha256-akGih3dz6X8ZgyBnGHzG/ILhhtiiz5H+xLTBpfvW7yc=",
+      "source": "github-digest",
+      "url": "https://github.com/pnpm/pnpm/releases/download/v12.15.0/pnpm-darwin-arm64.tar.gz"
+    },
+    "aarch64-linux": {
+      "hash": "sha256-186TosfYR9OjS9P1WbYMFPV4sTIMF8w1KixcX9+VYRc=",
+      "source": "github-digest",
+      "url": "https://github.com/pnpm/pnpm/releases/download/v12.15.0/pnpm-linux-arm64.tar.gz"
+    },
+    "x86_64-darwin": {
+      "hash": "sha256-LXszaIRXSu6KdlvuSFkSEunK9Pz5hfsyeViMH7c/tH8=",
+      "source": "github-digest",
+      "url": "https://github.com/pnpm/pnpm/releases/download/v12.15.0/pnpm-darwin-x64.tar.gz"
+    },
+    "x86_64-linux": {
+      "hash": "sha256-VbXtAJK9ERdsFmlZjiMa5S587axZ3m79DUFXMPN9BZg=",
+      "source": "github-digest",
+      "url": "https://github.com/pnpm/pnpm/releases/download/v12.15.0/pnpm-linux-x64.tar.gz"
+    }
+  },
+  "version": "12.15.0"
+}
