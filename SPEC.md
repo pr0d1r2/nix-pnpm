@@ -2,7 +2,7 @@
 
 ## §G GOAL
 
-`nix-pnpm` — pnpm 12 (newest stable 12.x, now 12.15.0) as nix flake on fleet nixpkgs pin (`nixpkgs-lock`), ∀ 4 fleet systems, from upstream's release binaries; works as `pnpm` arg of pin's `fetchPnpmDeps` & `pnpmConfigHook`; Linux cached on `pr0d1r2.cachix.org` from CI.
+`nix-pnpm` — pnpm 12 (newest stable 12.x, now 12.15.0) as nix flake on fleet nixpkgs pin (`nixpkgs-lock`), ∀ 4 fleet systems, from upstream's release binaries; works as `pnpm` arg of pin's `fetchPnpmDeps` & `pnpmConfigHook`; ∀ CI system cached on `pr0d1r2.cachix.org` from CI (V10).
 
 LINEAGE: `SPEC-PROMPT.md` (HISTORICAL after this run). where it & this spec differ, this spec wins. prompt decisions cited `D<n>`. paradigm `fda10ea` + its `docs/NIX.md` & `docs/SHELL.md`; fleet rules cited `paradigm/V<n>`. shaped like `github.com/pr0d1r2/nix-hk`.
 
@@ -36,7 +36,7 @@ self|.|-
 - pin `fetchPnpmDeps` reads `pnpm.version` (lockfile major check) & `pnpm.nodejs-slim` (`pnpm-fixup-state-db` override) ∴ package ! carry `passthru.nodejs-slim` = pin's `nodejs-slim`. ⊥ `passthru.fetchDeps` | `configHook` (deprecated in pin).
 - track stable 12.x only: bump picks newest non-prerelease `v12.*` tag from release list, ⊥ `releases/latest`, ⊥ `pnpr@*`, ⊥ 13.x w/o owner decision (D3, D10). floor 12.14.0 (owner 2026-10-24, Orca `packageManager`, `.:R9`).
 - one sources file: version + 4 hashes; ∀ hash = GitHub asset `digest` (sha256), cross-checked by download; source of each recorded (D10, prompt "verify the tarball").
-- cache: Linux outputs pushed to cachix `pr0d1r2` from CI only, ⊥ developer machine (D5); cachix = only binary channel, ⊥ GitHub release assets (D8).
+- cache: ∀ CI-built output pushed to cachix `pr0d1r2` from CI only, ⊥ developer machine (D5 amended by owner 2026-10-24: all CI systems, ⊥ Linux only); cachix = only binary channel, ⊥ GitHub release assets (D8).
 - public from start, MIT (D6). ⊥ private repo named in committed text (`paradigm/V37`).
 - outward acts need explicit owner approval: create GitHub repo, first push, cachix token, upstream issues.
 - out of scope: pnpm 11 | 10 (pin has them), corepack, Windows, musl. nix-orca switch = nix-orca's own PR (D7).
@@ -51,7 +51,7 @@ self|.|-
 - consumer: `fetchPnpmDeps { pnpm = nix-pnpm.packages.<system>.pnpm; fetcherVersion = 4; … }` & `pnpmConfigHook` w/ same pnpm in `nativeBuildInputs` (goal 3).
 - file: `pkgs/pnpm/sources.json` — version + per-system asset url & hash (`pkgs` node, D10).
 - cmd: `scripts/bump-pnpm.sh [--force]` — move to newest stable 12.x, prints `NEW_VERSION=<v>` when changed (`scripts` node, goal 4).
-- ci: GitHub Actions rendered by actlith from `.actlith` (`paradigm/V28`): build & `nix flake check` ∀ CI system; cachix push Linux on `main` only; `verify-cache` job after build; daily upstream detection, red on newer 12.x, ⊥ pushes branch, ⊥ opens PR (nix-hk B8, B9).
+- ci: GitHub Actions rendered by actlith from `.actlith` (`paradigm/V28`): build & `nix flake check` ∀ CI system; cachix push ∀ CI system on `main` only; `verify-cache` job after build; daily upstream detection, red on newer 12.x, ⊥ pushes branch, ⊥ opens PR (nix-hk B8, B9).
 
 ## §R RESEARCH
 
@@ -74,11 +74,12 @@ V1: lock graph: root inputs = exactly `nixpkgs-lock`; exactly 1 nixpkgs node; it
 V2: `overlays.default` applied to pin → attr names it sets = exactly `[ "pnpm_12" ]`; `pnpm` stays pin's (D9).
 V3: `packages.<system>.pnpm` & `checks.<system>` evaluate ∀ 4 systems; CI builds ∀ system actlith carries (`paradigm/V28`).
 V4: pinned version ∈ stable 12.x: matches `^12\.[0-9]+\.[0-9]+$`; ⊥ prerelease suffix; 13.x only after owner decision (D3, D10).
-V5: ∀ cachix push from CI on `main`, Linux outputs only; ⊥ push from developer machine; `verify-cache` job after build → narinfo 200 ∀ Linux `pnpm` path, else red (D5; nix-hk B3–B5: `cachix-action` exits 0 on empty | 403 token).
+V5: ∀ cachix push from CI on `main`, Linux outputs only; ⊥ push from developer machine; `verify-cache` job after build → narinfo 200 ∀ Linux `pnpm` path, else red (D5; nix-hk B3–B5: `cachix-action` exits 0 on empty | 403 token). [superseded by V10]
 V6: ⊥ GitHub release asset in this repo; cachix = only binary channel (D8).
 V7: build & checks ⊥ network except fixed-output fetches (`fetchurl` asset, `fetchPnpmDeps`).
 V8: ⊥ private repo named in committed text (`paradigm/V37`, D6).
 V9: pinned version ≥ `12.14.0` (owner 2026-10-24); `checks` `version` & `scripts/bump-pnpm.sh` refuse below (version order, `sort -V`).
+V10: ∀ cachix push from CI on `main`, ∀ system CI builds (x86_64-linux, aarch64-linux, aarch64-darwin; owner 2026-10-24, amends D5); ⊥ push from developer machine; `verify-cache` job after build → narinfo 200 ∀ built `pnpm` path, else red (nix-hk B3–B5).
 
 ## §T TASKS
 
@@ -86,7 +87,7 @@ id|status|task|cites
 T1|x|`.context-limits`: ∀ node measured by `sherd budget` + 12–20% slack (`paradigm/V12`)|-
 T2|x|dev shell per `dev` node; human reloads shell after it lands (`paradigm/V20`)|V1
 T3|~|guardrails via pklith `.pklith` → `hk.pkl`, one check per commit, planted violation each (`paradigm/V21`): nixfmt, statix, deadnix, shellcheck, shfmt, bats mirror both ways, TDD order, actionlint, spec checks, lock-graph guard, name guard|V1,V8
-T4|.|CI via actlith `.actlith`: build & `nix flake check`, cachix push Linux on `main`, `verify-cache`, daily upstream detection (§I.ci)|V3,V5,V6
+T4|.|CI via actlith `.actlith`: build & `nix flake check`, cachix push ∀ CI system on `main`, `verify-cache`, daily upstream detection (§I.ci)|V3,V6,V10
 T5|~|waves, hand-planned (`sherd wave` reads Rust edges only, sherd#132): wave 1 = `pkgs` (+ root `flake.nix` wiring) ∥ `scripts`; wave 2 = `checks` (needs `pkgs`). one node per worker, own worktree, TDD (`paradigm/V14`); wave ends w/ reconciliation commit (`paradigm/V18`)|V2,V4,V7
 T6|.|docs: `README.md` (consumer snippet for `fetchPnpmDeps`), `LICENSE` MIT, `docs/LLM-DISCLAIMER.md` (`paradigm/V33`)|V8
 T7|.|GitHub repo `pr0d1r2/nix-pnpm` PUBLIC, first push, `CACHIX_AUTH_TOKEN` secret (per-cache write token): ∀ w/ owner approval|V5,V8
