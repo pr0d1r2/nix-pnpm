@@ -37,9 +37,21 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   installPhase = ''
     runHook preInstall
     install -Dm755 pnpm "$out"/libexec/pnpm/pnpm
+    cp -R dist "$out"/libexec/pnpm/dist
     mkdir -p "$out"/bin
     ln -s "$out"/libexec/pnpm/pnpm "$out"/bin/pnpm
+    ln -s "$out"/bin/pnpm "$out"/bin/pn
+    makeWrapper "$out"/bin/pnpm "$out"/bin/pnpx --add-flag dlx
+    ln -s "$out"/bin/pnpx "$out"/bin/pnx
     runHook postInstall
+  '';
+
+  postInstall = lib.optionalString (stdenvNoCC.buildPlatform.canExecute stdenvNoCC.hostPlatform) ''
+    export HOME="$TMPDIR"
+    installShellCompletion --cmd pnpm \
+      --bash <("$out"/bin/pnpm completion bash) \
+      --fish <("$out"/bin/pnpm completion fish) \
+      --zsh <("$out"/bin/pnpm completion zsh)
   '';
 
   doInstallCheck = true;
