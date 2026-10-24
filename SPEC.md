@@ -81,7 +81,7 @@ V9: pinned version ≥ `12.14.0` (owner 2026-10-24); `checks` `version` & `scrip
 
 id|status|task|cites
 T1|x|`.context-limits`: ∀ node measured by `sherd budget` + 12–20% slack (`paradigm/V12`)|-
-T2|.|dev shell per `dev` node; human reloads shell after it lands (`paradigm/V20`)|V1
+T2|x|dev shell per `dev` node; human reloads shell after it lands (`paradigm/V20`)|V1
 T3|.|guardrails via pklith `.pklith` → `hk.pkl`, one check per commit, planted violation each (`paradigm/V21`): nixfmt, statix, deadnix, shellcheck, shfmt, bats mirror both ways, TDD order, actionlint, spec checks, lock-graph guard, name guard|V1,V8
 T4|.|CI via actlith `.actlith`: build & `nix flake check`, cachix push Linux on `main`, `verify-cache`, daily upstream detection (§I.ci)|V3,V5,V6
 T5|.|waves via `sherd wave`, order `pkgs` → `checks` → `scripts`; one node per worker, TDD (`paradigm/V14`); wave ends w/ reconciliation commit (`paradigm/V18`)|V2,V4,V7

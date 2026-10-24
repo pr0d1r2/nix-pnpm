@@ -38,7 +38,7 @@ V3: root `flake.lock` ⊥ gains input from dev tooling (`.:V1`).
 ## §T TASKS
 
 id|status|task|cites
-T1|.|`dev/flake.nix` + lock, `.envrc`; tool presence check; human shell reload|V1,V2,V3
+T1|x|`dev/flake.nix` + lock, `.envrc`; tool presence check; human shell reload|V1,V2,V3
 
 ## §B BUGS
 
