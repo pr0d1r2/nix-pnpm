@@ -57,6 +57,7 @@ gitignore|-|-|ignore patterns, no linter reads them
 markdownlintignore|-|-|ignore patterns, no linter reads them
 toml|-|-|typos config; typos reads it on every run, a bad line fails the typos step
 yaml|-|-|markdownlint config; yamllint lands with the workflows (root T4)
+path:checks/fixture/pnpm-lock.yaml|-|-|written by the pinned pnpm (checks T1); fetch-deps & config-hook read it
 lock|lock-graph|-|-
 path:flake.lock|lock-graph, root-inputs|-|-
 pklith|gen-check, pklith-check, confirm|-|-
