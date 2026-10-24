@@ -18,6 +18,8 @@ lock-graph|supply|jq|**/flake.lock, gate/lock-graph.sh, gate/lock-graph.jq|git l
 # The whole bats suite at push, so a RED commit can land (`docs/SHELL.md`).
 # pklith v0.1.0 puts only the `coverage` category in hk.pklith.pkl's `push`
 # mapping, hence the category; pklith main ships this row.
+# Root V1: the root flake locks exactly nixpkgs-lock and nixpkgs (gate T2).
+root-inputs|supply|jq|flake.lock, gate/root-inputs.sh|bash gate/root-inputs.sh flake.lock nixpkgs nixpkgs-lock|-|-|the root flake.lock has a root input other than nixpkgs and nixpkgs-lock, or lacks one (root V1)
 # Private names never reach a commit (gate T3, root V8, paradigm/V37).
 name-guard|gate|gnugrep|**/*|bash gate/name-guard.sh {{files}}|-|-|a private name is staged (root V8); the hit names the denylist entry, never the name
 bats-unit|coverage|bats|-|bats --recursive tests|-|-|a bats test under tests/ failed, or there is no tests/ directory
@@ -56,6 +58,7 @@ markdownlintignore|-|-|ignore patterns, no linter reads them
 toml|-|-|typos config; typos reads it on every run, a bad line fails the typos step
 yaml|-|-|markdownlint config; yamllint lands with the workflows (root T4)
 lock|lock-graph|-|-
+path:flake.lock|lock-graph, root-inputs|-|-
 pklith|gen-check, pklith-check, confirm|-|-
 pkl|-|-|written by pklith (seed or gen)
 pre-commit|-|-|written by pklith (seed or gen)
