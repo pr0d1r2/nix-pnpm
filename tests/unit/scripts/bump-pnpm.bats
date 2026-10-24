@@ -78,7 +78,7 @@ STUB
 #!/usr/bin/env bash
 case "$*" in
 "hash file --type sha256 --base16 "*) cat "$6" ;;
-"hash convert --hash-algo sha256 --to sri "*) echo "sha256-sri-of-$6" ;;
+"hash convert --hash-algo sha256 --to sri "*) echo "sha256-sri-of-$7" ;;
 *) exit 9 ;;
 esac
 STUB
