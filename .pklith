@@ -70,8 +70,8 @@ json|json|-|-
 ## rules
 id|kind|select|target|except
 # Mirrored tests both ways (`docs/SHELL.md`): every script has its bats
-# file, and no bats file outlives its script. Rows for scripts/ and
-# checks/ land with their first script. TDD order waits for a pklith tag
+# file, and no bats file outlives its script. Rows for each directory
+# land with its first script. TDD order waits for a pklith tag
 # with the `tdd-order` kind (v0.1.0 has none).
 dev-test|exists|dev/*.sh|tests/unit/dev/{stem}.bats|-
 dev-orphan|orphan|tests/unit/dev/*.bats|dev/{stem}.sh|-
@@ -79,3 +79,5 @@ gate-test|exists|gate/*.sh|tests/unit/gate/{stem}.bats|-
 gate-orphan|orphan|tests/unit/gate/*.bats|gate/{stem}.sh|-
 scripts-test|exists|scripts/*.sh|tests/unit/scripts/{stem}.bats|-
 scripts-orphan|orphan|tests/unit/scripts/*.bats|scripts/{stem}.sh|-
+checks-test|exists|checks/*.sh|tests/unit/checks/{stem}.bats|-
+checks-orphan|orphan|tests/unit/checks/*.bats|checks/{stem}.sh|-
