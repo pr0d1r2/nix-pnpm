@@ -9,3 +9,7 @@ indent_style = space
 
 [{Makefile,*.mk,go.mod,*.go}]
 indent_style = tab
+
+# shfmt reads its indent from here (`docs/SHELL.md`): two spaces.
+[*.{sh,bash,bats}]
+indent_size = 2
