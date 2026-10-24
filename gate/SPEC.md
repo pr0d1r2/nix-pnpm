@@ -36,9 +36,9 @@ V3: name guard fails on planted denylisted name, output ∌ the name (`.:V8`).
 ## §T TASKS
 
 id|status|task|cites
-T1|.|RED bats then `lock-graph.sh` + `lock-graph.jq`; hk check `lock-graph` on ∀ tracked `flake.lock`|V1
-T2|.|RED bats then `root-inputs.sh`; hk check on root lock once root flake exists|V2
-T3|.|RED bats then `name-guard.sh`; hk check `name-guard` on ∀ file|V3
+T1|x|RED bats then `lock-graph.sh` + `lock-graph.jq`; hk check `lock-graph` on ∀ tracked `flake.lock`|V1
+T2|~|RED bats then `root-inputs.sh`; hk check on root lock once root flake exists|V2
+T3|x|RED bats then `name-guard.sh`; hk check `name-guard` on ∀ file|V3
 
 ## §B BUGS
 
