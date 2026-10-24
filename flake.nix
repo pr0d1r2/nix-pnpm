@@ -17,7 +17,7 @@
   };
 
   outputs =
-    { nixpkgs, ... }:
+    { self, nixpkgs, ... }:
     let
       # x86_64-darwin is built locally until CI carries it (root T9).
       supportedSystems = [
@@ -38,6 +38,17 @@
         {
           inherit pnpm;
           default = pnpm;
+        }
+      );
+
+      # The checks node (root §I, D4): version, fetch-deps, config-hook and
+      # overlay, against this flake's own package and overlay.
+      checks = forAllSystems (
+        pkgs:
+        import ./checks {
+          inherit pkgs;
+          inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) pnpm;
+          overlay = self.overlays.default;
         }
       );
 
