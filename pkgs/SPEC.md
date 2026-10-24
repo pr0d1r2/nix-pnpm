@@ -42,8 +42,8 @@ V6: `passthru.nodejs-slim` ∃ & = pin's `nodejs-slim` (`.:R8`).
 ## §T TASKS
 
 id|status|task|cites
-T1|.|`sources.json` for 12.15.0 from GitHub digests, cross-checked by download|V2
-T2|.|`package.nix` darwin path; build aarch64-darwin|V1,V4,V5,V6
+T1|x|`sources.json` for 12.15.0 from GitHub digests, cross-checked by download|V2
+T2|x|`package.nix` darwin path; build aarch64-darwin|V1,V4,V5,V6
 T3|.|Linux path w/ `autoPatchelfHook`; measure runtime deps; build x86_64-linux & aarch64-linux (remote builder \| CI)|V1,V3,V5
 T4|.|build x86_64-darwin locally (`.:T9`)|V1,V4
 
