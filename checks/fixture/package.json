@@ -1,0 +1,9 @@
+{
+  "name": "nix-pnpm-fixture",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@12.14.0",
+  "dependencies": {
+    "is-number": "7.0.0"
+  }
+}
