@@ -71,3 +71,17 @@ V5: ∀ cachix push from CI on `main`, Linux outputs only; ⊥ push from develop
 V6: ⊥ GitHub release asset in this repo; cachix = only binary channel (D8).
 V7: build & checks ⊥ network except fixed-output fetches (`fetchurl` asset, `fetchPnpmDeps`).
 V8: ⊥ private repo named in committed text (`paradigm/V37`, D6).
+
+## §T TASKS
+
+id|status|task|cites
+T1|.|`.context-limits`: ∀ node measured by `sherd budget` + 12–20% slack (`paradigm/V12`)|-
+T2|.|dev shell per `dev` node; human reloads shell after it lands (`paradigm/V20`)|V1
+T3|.|guardrails via pklith `.pklith` → `hk.pkl`, one check per commit, planted violation each (`paradigm/V21`): nixfmt, statix, deadnix, shellcheck, shfmt, bats mirror both ways, TDD order, actionlint, spec checks, lock-graph guard, name guard|V1,V8
+T4|.|CI via actlith `.actlith`: build & `nix flake check`, cachix push Linux on `main`, `verify-cache`, daily upstream detection (§I.ci)|V3,V5,V6
+T5|.|waves via `sherd wave`, order `pkgs` → `checks` → `scripts`; one node per worker, TDD (`paradigm/V14`); wave ends w/ reconciliation commit (`paradigm/V18`)|V2,V4,V7
+T6|.|docs: `README.md` (consumer snippet for `fetchPnpmDeps`), `LICENSE` MIT, `docs/LLM-DISCLAIMER.md` (`paradigm/V33`)|V8
+T7|.|GitHub repo `pr0d1r2/nix-pnpm` PUBLIC, first push, `CACHIX_AUTH_TOKEN` secret (per-cache write token): ∀ w/ owner approval|V5,V8
+T8|.|after first green `main` w/ cache: issue in nix-orca to switch its deps fetch to this pnpm & re-measure both deps hashes, w/ owner approval (D7)|V5
+T9|.|`x86_64-darwin` in CI once pipelith carries it (paradigm T19); until then built locally before each bump lands|V3
+T10|.|RISK 2026-10-21: nixpkgs 26.05 last w/ `x86_64-darwin` (paradigm T21); revisit system list before `nixpkgs-lock` moves past 26.05|V3
