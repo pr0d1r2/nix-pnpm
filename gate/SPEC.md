@@ -41,7 +41,7 @@ id|status|task|cites
 T1|x|RED bats then `lock-graph.sh` + `lock-graph.jq`; hk check `lock-graph` on ∀ tracked `flake.lock`|V1
 T2|x|RED bats then `root-inputs.sh`; hk check on root lock once root flake exists|V2
 T3|x|RED bats then `name-guard.sh`; hk check `name-guard` on ∀ file|V3
-T4|.|RED bats then `pin-rev.sh`; CI job `pins` in `assert.yml` (`.:T4`)|V4
+T4|x|RED bats then `pin-rev.sh`; CI job `pins` in `assert.yml` (`.:T4`)|V4
 
 ## §B BUGS
 
