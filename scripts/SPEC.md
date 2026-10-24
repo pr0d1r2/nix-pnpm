@@ -12,6 +12,7 @@ self|scripts|bash: newest stable 12.x, bump of `sources.json`, upstream detectio
 sib|pkgs|pnpm derivation from release assets; `pkgs/pnpm/sources.json`
 sib|checks|flake checks & fixture: version, `fetchPnpmDeps`, `pnpmConfigHook`, overlay
 sib|dev|dev shell flake `dev/flake.nix`, `.envrc`, hook install on entry
+sib|gate|gate scripts: lock-graph, root-inputs & name guards; their bats
 
 ## §C CONSTRAINTS
 

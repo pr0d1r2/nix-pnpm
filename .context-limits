@@ -7,5 +7,6 @@
 SPEC.md                        2700
 checks                         3700
 dev                            3200
+gate                           3500
 pkgs                           3700
 scripts                        3800
