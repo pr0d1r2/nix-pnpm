@@ -85,3 +85,7 @@ T7|.|GitHub repo `pr0d1r2/nix-pnpm` PUBLIC, first push, `CACHIX_AUTH_TOKEN` secr
 T8|.|after first green `main` w/ cache: issue in nix-orca to switch its deps fetch to this pnpm & re-measure both deps hashes, w/ owner approval (D7)|V5
 T9|.|`x86_64-darwin` in CI once pipelith carries it (paradigm T19); until then built locally before each bump lands|V3
 T10|.|RISK 2026-10-21: nixpkgs 26.05 last w/ `x86_64-darwin` (paradigm T21); revisit system list before `nixpkgs-lock` moves past 26.05|V3
+
+## §B BUGS
+
+id|date|cause|fix
